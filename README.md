@@ -405,19 +405,7 @@ ubuntu@WEB-SERVER:~$
 
 ## 📜 Running Configurations
 
-Las configuraciones completas descargadas directamente de los equipos se encuentran archivadas en la carpeta `/configs`:
-
-* 📄 **Cisco Router R1:** [`configs/R1_running_config.txt`](configs/R1_running_config.txt)
-* 📄 **FortiGate Firewall:** [`configs/FortiGate_config.conf`](configs/FortiGate_config.conf)
-
----
-
-## 📁 Scripts y Archivos Utilizados
-
-En el directorio `/scripts` del repositorio se incluyen las herramientas de automatización utilizadas durante la fase de despliegue:
-
-* 🐍 **`scripts/start_web_server.py`**: Script en Python para inicializar un servidor de pruebas en el puerto 80 dentro del WEB-SERVER.
-* 📜 **`scripts/network_setup_ubuntu.sh`**: Script en Bash para configurar las tarjetas de red, IP estática y rutas de la máquina Ubuntu.
+Las configuraciones completas descargadas directamente de los equipos se encuentran atadas a este repositorio
 
 ---
 
