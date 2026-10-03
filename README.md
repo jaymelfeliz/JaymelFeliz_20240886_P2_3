@@ -76,6 +76,9 @@ El escenario resuelve dos requerimientos críticos de diseño en infraestructura
 
 ---
 
+<img width="516" height="553" alt="image" src="https://github.com/user-attachments/assets/39b53071-5672-4385-b2b0-4b7c0f954957" />
+
+
 ## 📊 Tabla de Direccionamiento
 
 | Dispositivo | Interfaz | Dirección IP / Máscara | Gateway Predeterminado | Propósito / Zona de Red |
