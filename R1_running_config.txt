@@ -1,0 +1,55 @@
+! Configuration for Cisco R1 Router
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R1
+!
+! Configuración de Interfaces
+interface FastEthernet0/0
+ description ** Gateway LAN VLAN 10 **
+ ip address 192.168.86.1 255.255.255.128
+ duplex auto
+ speed auto
+ no shutdown
+!
+interface FastEthernet1/0
+ description ** Interfaz WAN conectada a FortiGate port1 **
+ ip address 202.40.88.2 255.255.255.252
+ crypto map CM_FORTI
+ duplex auto
+ speed auto
+ no shutdown
+!
+! Configuración VPN IPsec - Fase 1 (ISAKMP)
+crypto isakmp policy 10
+ encr des
+ hash sha256
+ authentication pre-share
+ group 14
+ lifetime 86400
+exit
+
+crypto isakmp key ClaveSegura2024 address 202.40.88.1
+
+! Configuración VPN IPsec - Fase 2 & Crypto Map
+crypto ipsec transform-set TS_VPN esp-des esp-sha-hmac
+ mode tunnel
+exit
+
+crypto map CM_FORTI 10 ipsec-isakmp
+ set peer 202.40.88.1
+ set transform-set TS_VPN
+ set pfs group14
+ match address 101
+exit
+
+! Lista de Control de Acceso (Tráfico de Interés para la VPN)
+access-list 101 permit ip 192.168.86.0 0.0.0.127 172.20.24.0 0.0.0.15
+
+! Ruta Estática hacia la Red del Servidor Web
+ip route 172.20.24.0 255.255.255.240 FastEthernet1/0 202.40.88.1
+
+end
+write memory
