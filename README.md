@@ -9,9 +9,7 @@
 
 ## 📹 Video Demostrativo
 
-[![Ver Demostración del Laboratorio](https://img.youtube.com/vi/TU_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=TU_VIDEO_ID)
-
-> 🎬 **Nota:** Haz clic en la imagen superior para ver la demostración en video del laboratorio. En el video se valida el flujo de acceso Web externo a través de la Virtual IP (DNAT), la negociación del túnel IPsec (Fase 1 y Fase 2 con PFS Group 14) entre Cisco R1 y FortiGate, y el acceso administrativo cifrado mediante SSH desde la PC cliente Ubuntu.
+VIDEO DEMOSTRATIVO: https://youtu.be/8LJWo2p0-MY
 
 ---
 
