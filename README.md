@@ -94,6 +94,8 @@ El escenario resuelve dos requerimientos críticos de diseño en infraestructura
 
 ## ⚙️ Funcionamiento de la Configuración
 
+<img width="817" height="590" alt="image" src="https://github.com/user-attachments/assets/6f4d48c5-8f3c-41aa-a2a0-6a34f6b2b8f2" />
+
 ### 1. Publicación de Servicios mediante Virtual IP (DNAT)
 * **Recepción:** El tráfico proveniente del exterior con destino a la IP pública `202.40.88.1` en los puertos 80 (HTTP) o 443 (HTTPS) es capturado por la interfaz `port1` del FortiGate.
 * **Traducción:** El motor de Virtual IP (**DNAT**) traduce la dirección de destino `202.40.88.1` hacia la dirección privada interna `172.20.24.2`.
@@ -104,14 +106,23 @@ El escenario resuelve dos requerimientos críticos de diseño en infraestructura
   * **Autenticación:** Clave compartida previa (*Pre-Shared Key*): `ClaveSegura2024`.
   * **Algoritmos Criptográficos:** Cifrado `DES`, Hashing `SHA-256`, Grupo Diffie-Hellman **`Group 14`** (2048-bit MODP).
   * **Propósito:** Autenticar mutuamente a Cisco R1 y FortiGate y establecer un canal seguro IKE SA.
+
+<img width="798" height="275" alt="image" src="https://github.com/user-attachments/assets/25f5ce1d-ce9f-4fdf-b1c3-091056502f7c" />
+ 
 * **Fase 2 (IPsec SA - Selección de Tráfico de Interés):**
   * **Selectores de Tráfico:**
     * **Red Local (FortiGate):** `172.20.24.0/28` (Subred Servidores)
     * **Red Remota (Cisco R1):** `192.168.86.0/25` (Subred Usuarios VLAN 10)
   * **PFS (Perfect Forward Secrecy):** Activado obligatoriamente con **`DH Group 14`**, garantizando que el compromiso de una clave no exponga sesiones pasadas.
+ 
+  * <img width="815" height="408" alt="image" src="https://github.com/user-attachments/assets/1122c6a9-979b-4c30-a64d-82de3769890b" />
+  <img width="812" height="594" alt="image" src="https://github.com/user-attachments/assets/e77e3d57-334c-4f9e-9174-febe9124ded5" />
+
 * **Enrutamiento del Túnel:**
   * En **Cisco R1**, una ruta estática dirige el tráfico hacia `172.20.24.0/28` vía la interfaz WAN `FastEthernet1/0` apuntando a `202.40.88.1`. El *Crypto Map* intercepta el paquete al hacer *match* con la `access-list 101` y lo encapsula en ESP.
   * En **FortiGate**, una ruta estática dirige la subred `192.168.86.0/25` directamente a la interfaz virtual de túnel **`VPN_CISCO`**.
+
+<img width="1506" height="83" alt="image" src="https://github.com/user-attachments/assets/720171db-8daf-4427-a92b-2b183d893127" />
 
 ---
 
@@ -280,6 +291,24 @@ end
 ```
 
 ---
+## MEDIANTE GUI:
+
+POLITICAS GENERALES
+
+<img width="1587" height="292" alt="image" src="https://github.com/user-attachments/assets/b920ff94-01ed-4d25-9f38-1bdf43042292" />
+
+ALLOW_PUBLIC_WEB:
+
+<img width="1056" height="871" alt="image" src="https://github.com/user-attachments/assets/5ecc910d-588f-446a-a8c0-2aeb03728e97" />
+
+REVERSE - (ALLOW_SSH_VPN):
+
+<img width="964" height="813" alt="image" src="https://github.com/user-attachments/assets/26207290-0b30-4ab3-9a8f-8e8025072eba" />
+
+ALLOW_SSH_VPN:
+
+<img width="976" height="816" alt="image" src="https://github.com/user-attachments/assets/a6065a70-0504-456b-be9e-1f32426acf3c" />
+
 
 ## 🧪 Validación y Pruebas
 
@@ -305,6 +334,7 @@ Date: Sat, 03 Oct 2026 02:05:04 GMT
 ```
 
 ---
+<img width="1170" height="675" alt="image" src="https://github.com/user-attachments/assets/edee75c3-dbad-4bed-857e-2253916648f9" />
 
 ### 2. Verificación del Estado de la VPN IPsec en Cisco R1
 
@@ -320,6 +350,9 @@ dst             src             state          conn-id slot status
 Se valida la Fase 2 (SAs de IPsec), verificando que los contadores de paquetes cifrados (`encaps`) y descifrados (`decaps`) sean simétricos y mayores a 0, confirmando el flujo bidireccional:
 
 ```text
+
+<img width="1141" height="173" alt="image" src="https://github.com/user-attachments/assets/c783aea2-e2f6-42f0-b3cd-49486259923d" />
+
 R1# show crypto ipsec sa
 
 interface: FastEthernet1/0
@@ -339,6 +372,7 @@ interface: FastEthernet1/0
 ```
 
 ---
+<img width="1155" height="635" alt="image" src="https://github.com/user-attachments/assets/8c4bf6dd-f279-447b-87bc-204968e601af" />
 
 ### 3. Conexión SSH Administrada a través de la VPN
 
@@ -358,6 +392,7 @@ ubuntu@WEB-SERVER:~$
 > **Confirmación:** La sesión SSH inicia correctamente sobre el túnel IPsec encriptado.
 
 ---
+<img width="1118" height="448" alt="image" src="https://github.com/user-attachments/assets/8a6915f7-e361-494b-9ceb-1dbb3505760c" />
 
 ## 📸 Diagramas y Evidencias
 
